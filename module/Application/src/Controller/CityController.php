@@ -10,7 +10,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
+use Zend\Db\Sql\Sql;
 class CityController extends AbstractActionController
 {
     public function indexAction()
@@ -22,17 +22,31 @@ class CityController extends AbstractActionController
             'database' => 'ec',
         ];
         $dbadapter = new \Zend\Db\Adapter\Adapter($configArray);
-        $query = "select * from city";
-        $results = $dbadapter->query($query,
-            \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
-        $city = [];
-        foreach ($results as $item) {
-            $city[] = $item;
-        }
-        return new ViewModel(['city' => $city]);
+        $sql    = new Sql($dbadapter);
+        $select = $sql->select();
+        $select->from('city');
+        $statement = $sql->prepareStatementForSqlObject($select);
+
+        $results = $statement->execute();
+        return new ViewModel(['city' => $results]);
     }
 
     public function editAction(){
-        die($this->params('id'));
+        $configArray   = [
+            'driver'   => 'Mysqli',
+            'username' => 'root',
+            'password' => 'Covid19#21',
+            'database' => 'ec',
+        ];
+        $dbadapter = new \Zend\Db\Adapter\Adapter($configArray);
+        $sql    = new Sql($dbadapter, 'city');
+        $update = $sql->update();
+        $update->set([
+            'name' => 'Ha Noi',
+        ]);
+        $update->where(['id' => $this->params('id')]);
+        $stmt = $sql->prepareStatementForSqlObject($update);
+        $stmt->execute();
+        return new ViewModel(['city' => []]);
     }
 }

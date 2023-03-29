@@ -31,6 +31,10 @@ class CityController extends AbstractActionController
         return new ViewModel(['city' => $results]);
     }
 
+    public function getFormAction(){
+
+    }
+
     public function editAction(){
         $configArray   = [
             'driver'   => 'Mysqli',

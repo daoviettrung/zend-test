@@ -1,0 +1,32 @@
+<?php $city = $this->city;?>
+
+<h2>HTML Table</h2>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<table>
+    <tr>
+        <th>name</th>
+        <th>edit</th>
+    </tr>
+    <?php foreach ($city as $value){ ?>
+    <tr>
+        <td><?=$value['name']?></td>
+        <td><a href="city/edit/<?=$value['id']?>">edit</a></td>
+    </tr>
+    <?php } ?>
+</table>
